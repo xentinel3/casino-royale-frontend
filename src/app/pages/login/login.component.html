@@ -1,0 +1,49 @@
+<div class="min-h-screen bg-[var(--ui-ux-4)] text-[var(--ui-ux-5)]">
+  <div class="flex min-h-screen items-center justify-center px-6 py-10">
+    <div class="card w-full max-w-sm rounded-3xl border border-[color:var(--ui-ux-1)] border-opacity-20 bg-[var(--ui-ux-4)] shadow-2xl">
+      <form class="card-body space-y-6 p-8 sm:p-10" (ngSubmit)="submit()">
+        <div class="space-y-3">
+          <p class="text-xs uppercase tracking-[0.35em] text-[var(--ui-ux-1)]">Casino Royale</p>
+          <div class="flex items-center justify-between">
+            <h2 class="text-3xl font-semibold tracking-tight">Login</h2>
+            <div class="rounded-full border border-black/10 bg-white/80 p-2">
+              <lucide-icon [img]="diamondIcon" class="h-5 w-5 text-[var(--ui-ux-3)]"></lucide-icon>
+            </div>
+          </div>
+          <div class="h-1 w-12 rounded-full bg-[var(--ui-ux-2)]"></div>
+        </div>
+        <div class="alert alert-error text-sm" *ngIf="errorMessage">
+          <span>{{ errorMessage }}</span>
+        </div>
+        <label class="form-control w-full">
+          <div class="label pb-1">
+            <span class="label-text text-xs uppercase tracking-[0.2em] text-[var(--ui-ux-1)]">Usuario</span>
+          </div>
+          <input
+            type="text"
+            name="username"
+            [(ngModel)]="username"
+            placeholder="admin"
+            class="input input-bordered w-full rounded-xl border-[color:var(--ui-ux-1)] border-opacity-20 bg-white/90 px-4 py-3 text-sm focus:border-[color:var(--ui-ux-2)]"
+          />
+        </label>
+        <label class="form-control w-full">
+          <div class="label pb-1">
+            <span class="label-text text-xs uppercase tracking-[0.2em] text-[var(--ui-ux-1)]">Contrasena</span>
+          </div>
+          <input
+            type="password"
+            name="password"
+            [(ngModel)]="password"
+            placeholder="casino123"
+            class="input input-bordered w-full rounded-xl border-[color:var(--ui-ux-1)] border-opacity-20 bg-white/90 px-4 py-3 text-sm focus:border-[color:var(--ui-ux-2)]"
+          />
+        </label>
+        <button type="submit" class="hidden" aria-hidden="true"></button>
+        <div class="text-xs text-[var(--ui-ux-1)]">
+          Presiona Enter para continuar.
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,44 @@
+<div class="min-h-screen bg-[var(--ui-ux-4)] text-[var(--ui-ux-5)]">
+  <div class="border-b border-[color:var(--ui-ux-1)] border-opacity-10 bg-[var(--ui-ux-4)]">
+    <div class="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
+      <div class="flex items-center gap-3">
+        <div class="flex h-9 w-9 items-center justify-center rounded-full border border-[color:var(--ui-ux-1)] border-opacity-15 bg-white/80">
+          <lucide-icon [img]="spadeIcon" class="h-5 w-5 text-[var(--ui-ux-3)]"></lucide-icon>
+        </div>
+        <span class="brand-mark text-[14px] text-[var(--ui-ux-5)]">Casino Royale</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <button class="btn btn-ghost btn-sm" (click)="toggleSidebar()" aria-label="Sidebar">
+          <lucide-icon
+            [img]="isSidebarOpen ? sidebarCloseIcon : sidebarOpenIcon"
+            class="h-5 w-5"
+          ></lucide-icon>
+        </button>
+        <button
+          class="btn btn-ghost btn-sm"
+          (click)="toggleTheme()"
+          aria-label="Cambiar tema"
+        >
+          <lucide-icon *ngIf="isDark()" [img]="moonIcon" class="h-5 w-5"></lucide-icon>
+          <lucide-icon *ngIf="!isDark()" [img]="sunIcon" class="h-5 w-5"></lucide-icon>
+        </button>
+        <button
+          class="btn btn-sm btn-ghost"
+          (click)="handleLogout()"
+          aria-label="Logout"
+        >
+          <lucide-icon [img]="logoutIcon" class="h-5 w-5"></lucide-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <aside
+    class="fixed right-0 top-16 h-[calc(100vh-4rem)] border-l border-[color:var(--ui-ux-1)] border-opacity-20 bg-[var(--ui-ux-4)] transition-all duration-300"
+    [ngClass]="isSidebarOpen ? 'w-12 sm:w-72' : 'w-12'"
+  >
+    <div class="p-4 text-sm text-[var(--ui-ux-1)]" [ngClass]="isSidebarOpen ? 'hidden sm:block' : 'hidden'">
+      Seccion de navegacion.
+    </div>
+  </aside>
+</div>

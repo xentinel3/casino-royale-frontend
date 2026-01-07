@@ -1,0 +1,97 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-body: "Manrope", sans-serif;
+  --ui-ux-1: #59594c;
+  --ui-ux-2: #d99a4e;
+  --ui-ux-3: #bf4803;
+  --ui-ux-4: #f2f2f2;
+  --ui-ux-5: #0d0d0d;
+  --shadow-soft: 0 12px 30px rgba(6, 10, 18, 0.35);
+  --shadow-soft-light: 0 16px 36px rgba(14, 20, 30, 0.12);
+  --panel-border: rgba(148, 163, 184, 0.18);
+}
+
+body {
+  font-family: var(--font-body);
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.6;
+  background: var(--ui-ux-4);
+  color: var(--ui-ux-5);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-body);
+  letter-spacing: -0.02em;
+}
+
+html[data-theme="emerald"] body {
+  background: var(--ui-ux-4);
+}
+
+html[data-theme="luxury"] {
+  --ui-ux-4: #0d0d0d;
+  --ui-ux-5: #f2f2f2;
+  --panel-border: rgba(242, 242, 242, 0.12);
+  --shadow-soft: 0 16px 36px rgba(0, 0, 0, 0.4);
+}
+
+.btn-shadow {
+  box-shadow: var(--shadow-soft);
+}
+
+html[data-theme="emerald"] .btn-shadow {
+  box-shadow: var(--shadow-soft-light);
+}
+
+.card,
+.stats {
+  border: 1px solid var(--panel-border);
+}
+
+.brand-mark {
+  font-family: "Cinzel", serif;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.card-entrance {
+  animation: floatIn 520ms ease-out both;
+}
+
+.delay-1 {
+  animation-delay: 80ms;
+}
+
+.delay-2 {
+  animation-delay: 140ms;
+}
+
+.delay-3 {
+  animation-delay: 200ms;
+}
+
+@keyframes floatIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-entrance {
+    animation: none;
+  }
+}
