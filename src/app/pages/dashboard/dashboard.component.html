@@ -488,7 +488,7 @@
   </main>
 
   <aside
-    class="fixed right-6 top-20 z-40 h-[calc(100vh-6rem)] rounded-xl bg-white/80 shadow-lg backdrop-blur transition-all duration-300"
+    class="fixed right-6 top-20 z-40 min-h-[40vh] rounded-xl bg-white/80 shadow-lg backdrop-blur transition-all duration-300"
     [ngClass]="isSidebarOpen ? 'w-72' : 'w-12'"
   >
     <div class="p-4" *ngIf="isSidebarOpen">
@@ -503,7 +503,10 @@
           "
           (click)="setView('core')"
         >
-          <span>Core</span>
+          <span class="flex items-center gap-2">
+            <lucide-icon [img]="coreIcon" class="h-4 w-4"></lucide-icon>
+            Core
+          </span>
           <span class="text-xs text-white/80" *ngIf="activeView === 'core'">●</span>
         </button>
         <button
@@ -515,7 +518,10 @@
           "
           (click)="setView('events')"
         >
-          <span>Eventos</span>
+          <span class="flex items-center gap-2">
+            <lucide-icon [img]="eventsIcon" class="h-4 w-4"></lucide-icon>
+            Eventos
+          </span>
           <span class="text-xs text-white/80" *ngIf="activeView === 'events'">●</span>
         </button>
         <button
@@ -527,7 +533,10 @@
           "
           (click)="setView('history')"
         >
-          <span>Datos historicos</span>
+          <span class="flex items-center gap-2">
+            <lucide-icon [img]="historyIcon" class="h-4 w-4"></lucide-icon>
+            Datos historicos
+          </span>
           <span class="text-xs text-white/80" *ngIf="activeView === 'history'">●</span>
         </button>
         <button
@@ -539,7 +548,10 @@
           "
           (click)="setView('elo')"
         >
-          <span>Elo</span>
+          <span class="flex items-center gap-2">
+            <lucide-icon [img]="eloIcon" class="h-4 w-4"></lucide-icon>
+            Elo
+          </span>
           <span class="text-xs text-white/80" *ngIf="activeView === 'elo'">●</span>
         </button>
       </div>
@@ -551,7 +563,7 @@
         (click)="setView('core')"
         title="Core"
       >
-        C
+        <lucide-icon [img]="coreIcon" class="h-4 w-4"></lucide-icon>
       </button>
       <button
         class="btn btn-xs btn-ghost h-9 w-9 rounded-full"
@@ -559,7 +571,7 @@
         (click)="setView('events')"
         title="Eventos"
       >
-        E
+        <lucide-icon [img]="eventsIcon" class="h-4 w-4"></lucide-icon>
       </button>
       <button
         class="btn btn-xs btn-ghost h-9 w-9 rounded-full"
@@ -567,7 +579,7 @@
         (click)="setView('history')"
         title="Datos historicos"
       >
-        D
+        <lucide-icon [img]="historyIcon" class="h-4 w-4"></lucide-icon>
       </button>
       <button
         class="btn btn-xs btn-ghost h-9 w-9 rounded-full"
@@ -575,7 +587,7 @@
         (click)="setView('elo')"
         title="Elo"
       >
-        E
+        <lucide-icon [img]="eloIcon" class="h-4 w-4"></lucide-icon>
       </button>
     </div>
   </aside>

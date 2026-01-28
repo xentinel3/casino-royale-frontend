@@ -1,7 +1,7 @@
 import { DatePipe, DecimalPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
 import { CoreApiService, RecommendationResponse } from '../../services/core-api.service';
@@ -10,6 +10,10 @@ import { HistoryImportResponse, HistoryRecord, HistoryService } from '../../serv
 import { SeasonRecord, SeasonService } from '../../services/season.service';
 import { ThemeService } from '../../services/theme.service';
 import {
+  BarChart3,
+  Calendar,
+  Database,
+  LayoutGrid,
   LogOut,
   LucideAngularModule,
   Moon,
@@ -38,6 +42,10 @@ export class DashboardComponent implements OnInit {
   logoutIcon = LogOut;
   sidebarOpenIcon = PanelRightOpen;
   sidebarCloseIcon = PanelRightClose;
+  coreIcon = LayoutGrid;
+  eventsIcon = Calendar;
+  historyIcon = Database;
+  eloIcon = BarChart3;
   isSidebarOpen = true;
   activeView: 'core' | 'events' | 'history' | 'elo' = 'core';
   snapshotStatus = '';
@@ -93,6 +101,7 @@ export class DashboardComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private coreApi: CoreApiService,
+    private route: ActivatedRoute,
     private router: Router,
     private themeService: ThemeService
   ) {}
@@ -109,10 +118,25 @@ export class DashboardComponent implements OnInit {
         this.isLoadingSession = false;
       },
     });
-    const savedView = localStorage.getItem('casino_active_view');
-    if (savedView === 'core' || savedView === 'events' || savedView === 'history' || savedView === 'elo') {
-      this.activeView = savedView;
-    }
+    this.route.paramMap.subscribe((params) => {
+      const view = params.get('view');
+      if (view === 'core' || view === 'events' || view === 'history' || view === 'elo') {
+        this.activeView = view;
+        localStorage.setItem('casino_active_view', view);
+        if (view === 'history') {
+          this.loadHistory();
+        }
+        if (view === 'elo') {
+          this.loadEloRatings();
+        }
+        return;
+      }
+      const savedView = localStorage.getItem('casino_active_view');
+      if (savedView === 'core' || savedView === 'events' || savedView === 'history' || savedView === 'elo') {
+        this.activeView = savedView;
+        this.router.navigate(['/dashboard', savedView]);
+      }
+    });
     this.loadSeasons();
   }
 
@@ -131,6 +155,7 @@ export class DashboardComponent implements OnInit {
   setView(view: 'core' | 'events' | 'history' | 'elo'): void {
     this.activeView = view;
     localStorage.setItem('casino_active_view', view);
+    this.router.navigate(['/dashboard', view]);
     if (view === 'history') {
       this.loadHistory();
     }
