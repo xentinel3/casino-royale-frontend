@@ -34,7 +34,7 @@
   </div>
 
   <main class="mx-auto max-w-6xl px-6 py-10 pr-16 sm:pr-80">
-    <div class="mb-8">
+    <div class="mb-8" *ngIf="activeView === 'core'">
       <p class="text-xs uppercase tracking-[0.2em] text-[var(--ui-ux-1)]">Fase 0</p>
       <h1 class="text-2xl font-semibold text-[var(--ui-ux-5)]">Herramientas core</h1>
       <p class="mt-2 text-sm text-[var(--ui-ux-1)]">
@@ -42,77 +42,9 @@
       </p>
     </div>
 
-    <div class="grid gap-6 lg:grid-cols-2">
+    <div class="grid gap-6 lg:grid-cols-2" *ngIf="activeView === 'core'">
       <section class="rounded-2xl border border-[color:var(--ui-ux-1)] border-opacity-10 bg-white/70 p-6 shadow-sm">
-        <h2 class="text-lg font-semibold text-[var(--ui-ux-5)]">1. Evento + competidores</h2>
-        <form class="mt-4 grid gap-4" (ngSubmit)="submitEvent()">
-          <div class="grid gap-2">
-            <label class="text-xs uppercase tracking-wide text-[var(--ui-ux-1)]">Evento ID (opcional)</label>
-            <input
-              name="eventId"
-              [(ngModel)]="eventForm.id"
-              class="input input-bordered bg-transparent"
-              placeholder="UUID"
-            />
-          </div>
-          <div class="grid gap-2">
-            <label class="text-xs uppercase tracking-wide text-[var(--ui-ux-1)]">Inicio</label>
-            <input
-              name="eventStart"
-              [(ngModel)]="eventForm.startTime"
-              type="datetime-local"
-              class="input input-bordered bg-transparent"
-            />
-          </div>
-          <div class="grid gap-4 sm:grid-cols-2">
-            <div class="grid gap-2">
-              <label class="text-xs uppercase tracking-wide text-[var(--ui-ux-1)]">Competidor HOME</label>
-              <input
-                name="homeName"
-                [(ngModel)]="eventForm.homeName"
-                class="input input-bordered bg-transparent"
-                placeholder="Equipo A"
-                required
-              />
-            </div>
-            <div class="grid gap-2">
-              <label class="text-xs uppercase tracking-wide text-[var(--ui-ux-1)]">Competidor AWAY</label>
-              <input
-                name="awayName"
-                [(ngModel)]="eventForm.awayName"
-                class="input input-bordered bg-transparent"
-                placeholder="Equipo B"
-                required
-              />
-            </div>
-          </div>
-          <div class="grid gap-4 sm:grid-cols-2">
-            <div class="grid gap-2">
-              <label class="text-xs uppercase tracking-wide text-[var(--ui-ux-1)]">Season</label>
-              <input
-                name="season"
-                [(ngModel)]="eventForm.season"
-                class="input input-bordered bg-transparent"
-                placeholder="2024-25"
-              />
-            </div>
-            <div class="grid gap-2">
-              <label class="text-xs uppercase tracking-wide text-[var(--ui-ux-1)]">Round</label>
-              <input
-                name="round"
-                [(ngModel)]="eventForm.round"
-                class="input input-bordered bg-transparent"
-                placeholder="J1"
-              />
-            </div>
-          </div>
-          <button class="btn btn-primary w-full shadow-md">Crear evento</button>
-          <p class="text-sm text-[var(--ui-ux-1)]">{{ eventStatus }}</p>
-        </form>
-      </section>
-
-      <section class="rounded-2xl border border-[color:var(--ui-ux-1)] border-opacity-10 bg-white/70 p-6 shadow-sm">
-        <h2 class="text-lg font-semibold text-[var(--ui-ux-5)]">2. Snapshot de momios 1X2</h2>
+        <h2 class="text-lg font-semibold text-[var(--ui-ux-5)]">1. Snapshot de momios 1X2</h2>
         <form class="mt-4 grid gap-4" (ngSubmit)="submitSnapshot()">
           <div class="grid gap-2">
             <label class="text-xs uppercase tracking-wide text-[var(--ui-ux-1)]">Snapshot ID (opcional)</label>
@@ -134,7 +66,7 @@
             />
           </div>
           <div class="grid gap-2">
-            <label class="text-xs uppercase tracking-wide text-[var(--ui-ux-1)]">Bookmaker</label>
+            <label class="text-xs uppercase tracking-wide text-[var(--ui-ux-1)]">Casa de apuestas</label>
             <input
               name="bookmaker"
               [(ngModel)]="snapshotForm.bookmaker"
@@ -190,7 +122,7 @@
       </section>
 
       <section class="rounded-2xl border border-[color:var(--ui-ux-1)] border-opacity-10 bg-white/70 p-6 shadow-sm">
-        <h2 class="text-lg font-semibold text-[var(--ui-ux-5)]">3. Prediccion dummy</h2>
+        <h2 class="text-lg font-semibold text-[var(--ui-ux-5)]">2. Prediccion dummy</h2>
         <form class="mt-4 grid gap-4" (ngSubmit)="submitPrediction()">
           <div class="grid gap-2">
             <label class="text-xs uppercase tracking-wide text-[var(--ui-ux-1)]">Prediccion ID (opcional)</label>
@@ -370,12 +302,261 @@
         </div>
       </section>
     </div>
+
+    <div *ngIf="activeView === 'events'">
+      <app-events></app-events>
+    </div>
+
+    <div *ngIf="activeView === 'history'">
+      <div class="mb-8">
+        <p class="text-xs uppercase tracking-[0.2em] text-[var(--ui-ux-1)]">Fase 1</p>
+        <h1 class="text-2xl font-semibold text-[var(--ui-ux-5)]">Datos historicos</h1>
+        <p class="mt-2 text-sm text-[var(--ui-ux-1)]">
+          Sube CSV con partidos terminados para alimentar el historico.
+        </p>
+      </div>
+
+      <section class="rounded-2xl border border-[color:var(--ui-ux-1)] border-opacity-10 bg-white/70 p-6 shadow-sm">
+        <h2 class="text-lg font-semibold text-[var(--ui-ux-5)]">Insertar datos historicos</h2>
+        <div class="mt-4 grid gap-3">
+          <input
+            type="file"
+            accept=".csv"
+            class="file-input file-input-bordered w-full bg-transparent"
+            (change)="handleHistoryFile($event)"
+          />
+          <button class="btn btn-primary w-full" (click)="uploadHistory()">Importar CSV</button>
+          <p class="text-sm text-[var(--ui-ux-1)]">{{ historyUploadStatus }}</p>
+        </div>
+      </section>
+
+      <section class="mt-6 rounded-2xl border border-[color:var(--ui-ux-1)] border-opacity-10 bg-white/70 p-6 shadow-sm">
+        <div class="flex items-center justify-between gap-4">
+          <h2 class="text-lg font-semibold text-[var(--ui-ux-5)]">Historial cargado</h2>
+          <button class="btn btn-sm btn-ghost" (click)="loadHistory()">Actualizar</button>
+        </div>
+        <p class="mt-2 text-sm text-[var(--ui-ux-1)]" *ngIf="isLoadingHistory">Cargando historicos...</p>
+        <p class="mt-2 text-sm text-[var(--ui-ux-1)]" *ngIf="historyStatus">{{ historyStatus }}</p>
+        <p class="mt-4 text-sm text-[var(--ui-ux-1)]" *ngIf="!isLoadingHistory && !historyStatus && historyRecords.length === 0">
+          No hay partidos historicos cargados.
+        </p>
+        <div class="mt-4 space-y-3" *ngIf="historyRecords.length > 0">
+          <div
+            class="rounded-xl border border-[color:var(--ui-ux-1)] border-opacity-10 bg-white/80 p-4"
+            *ngFor="let record of historyRecords"
+          >
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <p class="text-xs uppercase tracking-[0.2em] text-[var(--ui-ux-1)]">Partido</p>
+                <p class="text-base font-semibold text-[var(--ui-ux-5)]">
+                  {{ record.home_team }} {{ record.home_goals }}-{{ record.away_goals }} {{ record.away_team }}
+                </p>
+              </div>
+              <div class="text-right">
+                <p class="text-xs uppercase tracking-[0.2em] text-[var(--ui-ux-1)]">Fecha</p>
+                <p class="text-sm text-[var(--ui-ux-5)]">{{ record.match_date | date: 'mediumDate' }}</p>
+              </div>
+            </div>
+            <div class="mt-3 flex flex-wrap items-center gap-3 text-xs text-[var(--ui-ux-1)]">
+              <span class="rounded-full border border-[color:var(--ui-ux-1)] border-opacity-20 px-3 py-1">
+                Temporada: {{ record.season }}
+              </span>
+              <span
+                class="rounded-full border border-[color:var(--ui-ux-1)] border-opacity-20 px-3 py-1"
+                *ngIf="record.round"
+              >
+                Jornada: {{ record.round }}
+              </span>
+              <span
+                class="rounded-full border border-[color:var(--ui-ux-1)] border-opacity-20 px-3 py-1"
+                *ngIf="record.source"
+              >
+                Fuente: {{ record.source }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div *ngIf="activeView === 'elo'">
+      <div class="mb-8">
+        <p class="text-xs uppercase tracking-[0.2em] text-[var(--ui-ux-1)]">Fase 2</p>
+        <h1 class="text-2xl font-semibold text-[var(--ui-ux-5)]">Elo de equipos</h1>
+        <p class="mt-2 text-sm text-[var(--ui-ux-1)]">
+          Entrena Elo con el historico y consulta ratings por equipo.
+        </p>
+      </div>
+
+      <section class="rounded-2xl border border-[color:var(--ui-ux-1)] border-opacity-10 bg-white/70 p-6 shadow-sm">
+        <h2 class="text-lg font-semibold text-[var(--ui-ux-5)]">Entrenar Elo</h2>
+        <p class="mt-2 text-xs text-[var(--ui-ux-1)]" *ngIf="seasonsStatus">{{ seasonsStatus }}</p>
+        <div class="mt-4 grid gap-4 sm:grid-cols-3">
+          <label class="grid gap-2 text-sm text-[var(--ui-ux-1)]">
+            Alcance
+            <select class="select select-bordered bg-transparent" [(ngModel)]="eloTrainScope">
+              <option value="all_time">Historico</option>
+              <option value="season">Temporada</option>
+            </select>
+          </label>
+          <label class="grid gap-2 text-sm text-[var(--ui-ux-1)]">
+            Temporada
+            <select
+              class="select select-bordered bg-transparent"
+              [(ngModel)]="eloTrainSeasonName"
+              [disabled]="eloTrainScope !== 'season'"
+            >
+              <option value="">Selecciona temporada</option>
+              <option *ngFor="let season of seasons" [value]="season.name">
+                {{ season.name }}
+                <ng-container *ngIf="season.start_date || season.end_date">
+                  ({{ season.start_date ? (season.start_date | date: 'yyyy-MM-dd') : 'N/A' }} -
+                  {{ season.end_date ? (season.end_date | date: 'yyyy-MM-dd') : 'N/A' }})
+                </ng-container>
+              </option>
+            </select>
+          </label>
+          <div class="flex items-end">
+            <button class="btn btn-primary w-full" (click)="trainElo()">Entrenar</button>
+          </div>
+        </div>
+        <p class="mt-3 text-sm text-[var(--ui-ux-1)]">{{ eloTrainStatus }}</p>
+      </section>
+
+      <section class="mt-6 rounded-2xl border border-[color:var(--ui-ux-1)] border-opacity-10 bg-white/70 p-6 shadow-sm">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <h2 class="text-lg font-semibold text-[var(--ui-ux-5)]">Ratings</h2>
+          <div class="flex flex-wrap items-center gap-2">
+            <select class="select select-sm select-bordered bg-transparent" [(ngModel)]="eloViewScope" (change)="loadEloRatings()">
+              <option value="all">Todos</option>
+              <option value="all_time">Historico</option>
+              <option value="season">Temporada</option>
+            </select>
+            <select
+              class="select select-sm select-bordered bg-transparent"
+              [(ngModel)]="eloViewSeasonName"
+              [disabled]="eloViewScope !== 'season'"
+              (change)="loadEloRatings()"
+            >
+              <option value="">Todas</option>
+              <option *ngFor="let season of seasons" [value]="season.name">
+                {{ season.name }}
+                <ng-container *ngIf="season.start_date || season.end_date">
+                  ({{ season.start_date ? (season.start_date | date: 'yyyy-MM-dd') : 'N/A' }} -
+                  {{ season.end_date ? (season.end_date | date: 'yyyy-MM-dd') : 'N/A' }})
+                </ng-container>
+              </option>
+            </select>
+            <button class="btn btn-sm btn-ghost" (click)="loadEloRatings()">Actualizar</button>
+          </div>
+        </div>
+        <p class="mt-2 text-sm text-[var(--ui-ux-1)]" *ngIf="isLoadingElo">Cargando elo...</p>
+        <p class="mt-2 text-sm text-[var(--ui-ux-1)]" *ngIf="eloStatus">{{ eloStatus }}</p>
+        <p class="mt-4 text-sm text-[var(--ui-ux-1)]" *ngIf="!isLoadingElo && !eloStatus && eloRatings.length === 0">
+          No hay ratings disponibles.
+        </p>
+        <div class="mt-4 grid gap-3" *ngIf="eloRatings.length > 0">
+          <div
+            class="rounded-xl border border-[color:var(--ui-ux-1)] border-opacity-10 bg-white/80 p-4"
+            *ngFor="let rating of eloRatings"
+          >
+            <div class="flex items-center justify-between gap-4">
+              <div>
+                <p class="text-xs uppercase tracking-[0.2em] text-[var(--ui-ux-1)]">Equipo</p>
+                <p class="text-base font-semibold text-[var(--ui-ux-5)]">{{ rating.competitor_name }}</p>
+              </div>
+              <div class="text-right">
+                <p class="text-xs uppercase tracking-[0.2em] text-[var(--ui-ux-1)]">Rating</p>
+                <p class="text-lg font-semibold text-[var(--ui-ux-5)]">{{ rating.rating | number: '1.0-2' }}</p>
+              </div>
+            </div>
+            <div class="mt-3 flex flex-wrap items-center gap-3 text-xs text-[var(--ui-ux-1)]">
+              <span class="rounded-full border border-[color:var(--ui-ux-1)] border-opacity-20 px-3 py-1">
+                Scope: {{ rating.scope }}
+              </span>
+              <span
+                class="rounded-full border border-[color:var(--ui-ux-1)] border-opacity-20 px-3 py-1"
+                *ngIf="rating.season"
+              >
+                Temporada: {{ rating.season }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
   </main>
 
   <aside
-    class="fixed right-0 top-16 h-[calc(100vh-4rem)] border-l border-[color:var(--ui-ux-1)] border-opacity-20 bg-[var(--ui-ux-4)] transition-all duration-300"
-    [ngClass]="isSidebarOpen ? 'w-12 sm:w-72' : 'w-12'"
+    class="fixed right-0 top-16 z-40 h-[calc(100vh-4rem)] border-l border-[color:var(--ui-ux-1)] border-opacity-20 bg-[var(--ui-ux-4)] shadow-lg transition-all duration-300"
+    [ngClass]="isSidebarOpen ? 'w-72' : 'w-12'"
   >
-    <div class="p-4 text-sm text-[var(--ui-ux-1)]" [ngClass]="isSidebarOpen ? 'hidden sm:block' : 'hidden'"></div>
+    <div class="p-4" *ngIf="isSidebarOpen">
+      <p class="text-xs uppercase tracking-[0.2em] text-[var(--ui-ux-1)]">Navegacion</p>
+      <div class="mt-4 grid gap-2">
+        <button
+          class="btn btn-sm w-full justify-start"
+          [ngClass]="activeView === 'core' ? 'btn-primary' : 'btn-ghost'"
+          (click)="setView('core')"
+        >
+          Core
+        </button>
+        <button
+          class="btn btn-sm w-full justify-start"
+          [ngClass]="activeView === 'events' ? 'btn-primary' : 'btn-ghost'"
+          (click)="setView('events')"
+        >
+          Eventos
+        </button>
+        <button
+          class="btn btn-sm w-full justify-start"
+          [ngClass]="activeView === 'history' ? 'btn-primary' : 'btn-ghost'"
+          (click)="setView('history')"
+        >
+          Datos historicos
+        </button>
+        <button
+          class="btn btn-sm w-full justify-start"
+          [ngClass]="activeView === 'elo' ? 'btn-primary' : 'btn-ghost'"
+          (click)="setView('elo')"
+        >
+          Elo
+        </button>
+      </div>
+    </div>
+    <div class="flex h-full flex-col items-center gap-3 py-4" *ngIf="!isSidebarOpen">
+      <button
+        class="btn btn-xs btn-ghost h-9 w-9 rounded-full"
+        [ngClass]="activeView === 'core' ? 'btn-primary' : 'btn-ghost'"
+        (click)="setView('core')"
+        title="Core"
+      >
+        C
+      </button>
+      <button
+        class="btn btn-xs btn-ghost h-9 w-9 rounded-full"
+        [ngClass]="activeView === 'events' ? 'btn-primary' : 'btn-ghost'"
+        (click)="setView('events')"
+        title="Eventos"
+      >
+        E
+      </button>
+      <button
+        class="btn btn-xs btn-ghost h-9 w-9 rounded-full"
+        [ngClass]="activeView === 'history' ? 'btn-primary' : 'btn-ghost'"
+        (click)="setView('history')"
+        title="Datos historicos"
+      >
+        D
+      </button>
+      <button
+        class="btn btn-xs btn-ghost h-9 w-9 rounded-full"
+        [ngClass]="activeView === 'elo' ? 'btn-primary' : 'btn-ghost'"
+        (click)="setView('elo')"
+        title="Elo"
+      >
+        E
+      </button>
+    </div>
   </aside>
 </div>

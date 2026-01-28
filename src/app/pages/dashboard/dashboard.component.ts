@@ -1,9 +1,13 @@
-import { DecimalPipe, NgClass, NgFor, NgIf } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { DatePipe, DecimalPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
 import { CoreApiService, RecommendationResponse } from '../../services/core-api.service';
+import { EloRatingRecord, EloService, EloTrainResponse } from '../../services/elo.service';
+import { HistoryImportResponse, HistoryRecord, HistoryService } from '../../services/history.service';
+import { SeasonRecord, SeasonService } from '../../services/season.service';
 import { ThemeService } from '../../services/theme.service';
 import {
   LogOut,
@@ -14,11 +18,12 @@ import {
   Spade,
   Sun,
 } from 'lucide-angular';
+import { EventsComponent } from '../../components/events/events.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [NgIf, NgFor, NgClass, DecimalPipe, FormsModule, LucideAngularModule],
+  imports: [NgIf, NgFor, NgClass, DatePipe, DecimalPipe, FormsModule, LucideAngularModule, EventsComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
@@ -34,20 +39,27 @@ export class DashboardComponent implements OnInit {
   sidebarOpenIcon = PanelRightOpen;
   sidebarCloseIcon = PanelRightClose;
   isSidebarOpen = true;
-  eventStatus = '';
+  activeView: 'core' | 'events' | 'history' | 'elo' = 'core';
   snapshotStatus = '';
   predictionStatus = '';
   recommendationStatus = '';
   latestRecommendation: RecommendationResponse | null = null;
+  historyRecords: HistoryRecord[] = [];
+  historyStatus = '';
+  historyUploadStatus = '';
+  historyFile: File | null = null;
+  isLoadingHistory = false;
+  eloRatings: EloRatingRecord[] = [];
+  eloStatus = '';
+  eloTrainStatus = '';
+  eloTrainScope: 'all_time' | 'season' = 'all_time';
+  eloTrainSeasonName = '';
+  eloViewScope: 'all_time' | 'season' | 'all' = 'all';
+  eloViewSeasonName = '';
+  isLoadingElo = false;
+  seasons: SeasonRecord[] = [];
+  seasonsStatus = '';
 
-  eventForm = {
-    id: '',
-    startTime: '',
-    homeName: '',
-    awayName: '',
-    season: '',
-    round: ''
-  };
   snapshotForm = {
     id: '',
     eventId: '',
@@ -74,6 +86,10 @@ export class DashboardComponent implements OnInit {
     bankroll: 1000
   };
 
+  private historyService = inject(HistoryService);
+  private eloService = inject(EloService);
+  private seasonService = inject(SeasonService);
+
   constructor(
     private authService: AuthService,
     private coreApi: CoreApiService,
@@ -93,6 +109,7 @@ export class DashboardComponent implements OnInit {
         this.isLoadingSession = false;
       },
     });
+    this.loadSeasons();
   }
 
   toggleTheme(): void {
@@ -107,6 +124,106 @@ export class DashboardComponent implements OnInit {
     this.isSidebarOpen = !this.isSidebarOpen;
   }
 
+  setView(view: 'core' | 'events' | 'history' | 'elo'): void {
+    this.activeView = view;
+    if (view === 'history') {
+      this.loadHistory();
+    }
+    if (view === 'elo') {
+      this.loadEloRatings();
+    }
+    this.loadSeasons();
+  }
+
+  loadHistory(): void {
+    this.historyStatus = '';
+    this.isLoadingHistory = true;
+    this.historyService.listHistory().subscribe({
+      next: (response: HistoryRecord[]) => {
+        this.historyRecords = response;
+        this.isLoadingHistory = false;
+      },
+      error: () => {
+        this.historyStatus = 'No se pudieron cargar los datos historicos.';
+        this.isLoadingHistory = false;
+      }
+    });
+  }
+
+  handleHistoryFile(event: Event): void {
+    const target = event.target as HTMLInputElement | null;
+    const file = target?.files?.[0] ?? null;
+    this.historyFile = file;
+    this.historyUploadStatus = '';
+  }
+
+  uploadHistory(): void {
+    if (!this.historyFile) {
+      this.historyUploadStatus = 'Selecciona un archivo CSV.';
+      return;
+    }
+    this.historyUploadStatus = 'Subiendo...';
+    this.historyService.uploadHistory(this.historyFile).subscribe({
+      next: (response: HistoryImportResponse) => {
+        const msg = `Insertados ${response.inserted}, omitidos ${response.skipped}.`;
+        this.historyUploadStatus = response.error_count
+          ? `${msg} Errores: ${response.error_count}.`
+          : msg;
+        this.loadHistory();
+      },
+      error: (error: HttpErrorResponse) => {
+        this.historyUploadStatus = error?.error?.detail || 'Error subiendo historicos.';
+      }
+    });
+  }
+
+  loadSeasons(): void {
+    this.seasonsStatus = '';
+    this.seasonService.listSeasons().subscribe({
+      next: (response: SeasonRecord[]) => {
+        this.seasons = response;
+      },
+      error: (error: HttpErrorResponse) => {
+        this.seasonsStatus = error?.error?.detail || 'No se pudieron cargar las temporadas.';
+      }
+    });
+  }
+
+  loadEloRatings(): void {
+    this.eloStatus = '';
+    this.isLoadingElo = true;
+    const season = this.eloViewScope === 'season' ? this.eloViewSeasonName.trim() : undefined;
+    const scope = this.eloViewScope === 'all' ? undefined : this.eloViewScope;
+    this.eloService.listRatings(scope, season || undefined).subscribe({
+      next: (response: EloRatingRecord[]) => {
+        this.eloRatings = response;
+        this.isLoadingElo = false;
+      },
+      error: (error: HttpErrorResponse) => {
+        this.eloStatus = error?.error?.detail || 'No se pudieron cargar los elos.';
+        this.isLoadingElo = false;
+      }
+    });
+  }
+
+  trainElo(): void {
+    const season = this.eloTrainScope === 'season' ? this.eloTrainSeasonName.trim() : undefined;
+    if (this.eloTrainScope === 'season' && !season) {
+      this.eloTrainStatus = 'Ingresa el nombre de la temporada.';
+      return;
+    }
+    this.eloTrainStatus = 'Entrenando...';
+    this.eloService.trainElo(season).subscribe({
+      next: (response: EloTrainResponse) => {
+        this.eloTrainStatus = `Listo. Partidos: ${response.total_matches}, equipos actualizados: ${response.updated_all_time}.`;
+        this.loadEloRatings();
+      },
+      error: (error: HttpErrorResponse) => {
+        this.eloTrainStatus = error?.error?.detail || 'Error entrenando Elo.';
+      }
+    });
+  }
+
   private toIso(value: string): string {
     const parsed = new Date(value);
     if (Number.isNaN(parsed.getTime())) {
@@ -115,38 +232,6 @@ export class DashboardComponent implements OnInit {
     return parsed.toISOString();
   }
 
-  submitEvent(): void {
-    this.eventStatus = '';
-    const metadata: Record<string, string> = {};
-    if (this.eventForm.season.trim()) {
-      metadata['season'] = this.eventForm.season.trim();
-    }
-    if (this.eventForm.round.trim()) {
-      metadata['round'] = this.eventForm.round.trim();
-    }
-
-    this.coreApi
-      .createEvent({
-        id: this.eventForm.id.trim() || undefined,
-        start_time: this.toIso(this.eventForm.startTime),
-        competitors: [
-          { name: this.eventForm.homeName, role: 'HOME' },
-          { name: this.eventForm.awayName, role: 'AWAY' }
-        ],
-        metadata
-      })
-      .subscribe({
-        next: (response) => {
-          this.eventStatus = `Evento creado: ${response.id}`;
-          this.snapshotForm.eventId = response.id;
-          this.predictionForm.eventId = response.id;
-          this.runForm.eventId = response.id;
-        },
-        error: (error) => {
-          this.eventStatus = error?.error?.detail || 'Error creando evento.';
-        }
-      });
-  }
 
   submitSnapshot(): void {
     this.snapshotStatus = '';

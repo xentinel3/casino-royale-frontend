@@ -2,13 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-export interface EventResponse {
-  id: string;
-  start_time: string;
-  competitors: Array<{ id?: string; name: string; role?: string }>;
-  metadata: Record<string, string>;
-}
-
 export interface RecommendationResponse {
   recommendation: {
     id: string;
@@ -42,15 +35,6 @@ export class CoreApiService {
   private readonly baseUrl = 'http://localhost:8000';
 
   constructor(private http: HttpClient) {}
-
-  createEvent(payload: {
-    id?: string;
-    start_time: string;
-    competitors: Array<{ id?: string; name: string; role?: string }>;
-    metadata: Record<string, string>;
-  }): Observable<EventResponse> {
-    return this.http.post<EventResponse>(`${this.baseUrl}/api/events`, payload);
-  }
 
   createPriceSnapshot(payload: {
     id?: string;
