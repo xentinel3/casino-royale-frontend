@@ -109,6 +109,10 @@ export class DashboardComponent implements OnInit {
         this.isLoadingSession = false;
       },
     });
+    const savedView = localStorage.getItem('casino_active_view');
+    if (savedView === 'core' || savedView === 'events' || savedView === 'history' || savedView === 'elo') {
+      this.activeView = savedView;
+    }
     this.loadSeasons();
   }
 
@@ -126,6 +130,7 @@ export class DashboardComponent implements OnInit {
 
   setView(view: 'core' | 'events' | 'history' | 'elo'): void {
     this.activeView = view;
+    localStorage.setItem('casino_active_view', view);
     if (view === 'history') {
       this.loadHistory();
     }

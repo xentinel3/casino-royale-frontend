@@ -1,6 +1,6 @@
 <div class="min-h-screen bg-[var(--ui-ux-4)] text-[var(--ui-ux-5)]">
-  <div class="border-b border-[color:var(--ui-ux-1)] border-opacity-10 bg-[var(--ui-ux-4)]">
-    <div class="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
+  <div class="bg-white/80 backdrop-blur shadow-lg">
+    <div class="mx-auto flex h-14 max-w-6xl items-center justify-between px-6">
       <div class="flex items-center gap-3">
         <div class="flex h-9 w-9 items-center justify-center rounded-full border border-[color:var(--ui-ux-1)] border-opacity-15 bg-white/80">
           <lucide-icon [img]="spadeIcon" class="h-5 w-5 text-[var(--ui-ux-3)]"></lucide-icon>
@@ -33,7 +33,7 @@
     </div>
   </div>
 
-  <main class="mx-auto max-w-6xl px-6 py-10 pr-16 sm:pr-80">
+  <main class="mx-auto max-w-6xl px-6 py-8 pr-16 sm:pr-80">
     <div class="mb-8" *ngIf="activeView === 'core'">
       <p class="text-xs uppercase tracking-[0.2em] text-[var(--ui-ux-1)]">Fase 0</p>
       <h1 class="text-2xl font-semibold text-[var(--ui-ux-5)]">Herramientas core</h1>
@@ -488,39 +488,59 @@
   </main>
 
   <aside
-    class="fixed right-0 top-16 z-40 h-[calc(100vh-4rem)] border-l border-[color:var(--ui-ux-1)] border-opacity-20 bg-[var(--ui-ux-4)] shadow-lg transition-all duration-300"
+    class="fixed right-6 top-20 z-40 h-[calc(100vh-6rem)] rounded-xl bg-white/80 shadow-lg backdrop-blur transition-all duration-300"
     [ngClass]="isSidebarOpen ? 'w-72' : 'w-12'"
   >
     <div class="p-4" *ngIf="isSidebarOpen">
-      <p class="text-xs uppercase tracking-[0.2em] text-[var(--ui-ux-1)]">Navegacion</p>
-      <div class="mt-4 grid gap-2">
+      <p class="text-[11px] font-medium uppercase tracking-[0.28em] text-[var(--ui-ux-1)]">Navegacion</p>
+      <div class="mt-5 grid gap-2">
         <button
-          class="btn btn-sm w-full justify-start"
-          [ngClass]="activeView === 'core' ? 'btn-primary' : 'btn-ghost'"
+          class="flex w-full items-center justify-between rounded-lg px-4 py-2 text-sm font-medium transition"
+          [ngClass]="
+            activeView === 'core'
+              ? 'bg-[var(--ui-ux-2)] text-white shadow-sm'
+              : 'text-[var(--ui-ux-5)] hover:bg-black/5'
+          "
           (click)="setView('core')"
         >
-          Core
+          <span>Core</span>
+          <span class="text-xs text-white/80" *ngIf="activeView === 'core'">●</span>
         </button>
         <button
-          class="btn btn-sm w-full justify-start"
-          [ngClass]="activeView === 'events' ? 'btn-primary' : 'btn-ghost'"
+          class="flex w-full items-center justify-between rounded-lg px-4 py-2 text-sm font-medium transition"
+          [ngClass]="
+            activeView === 'events'
+              ? 'bg-[var(--ui-ux-2)] text-white shadow-sm'
+              : 'text-[var(--ui-ux-5)] hover:bg-black/5'
+          "
           (click)="setView('events')"
         >
-          Eventos
+          <span>Eventos</span>
+          <span class="text-xs text-white/80" *ngIf="activeView === 'events'">●</span>
         </button>
         <button
-          class="btn btn-sm w-full justify-start"
-          [ngClass]="activeView === 'history' ? 'btn-primary' : 'btn-ghost'"
+          class="flex w-full items-center justify-between rounded-lg px-4 py-2 text-sm font-medium transition"
+          [ngClass]="
+            activeView === 'history'
+              ? 'bg-[var(--ui-ux-2)] text-white shadow-sm'
+              : 'text-[var(--ui-ux-5)] hover:bg-black/5'
+          "
           (click)="setView('history')"
         >
-          Datos historicos
+          <span>Datos historicos</span>
+          <span class="text-xs text-white/80" *ngIf="activeView === 'history'">●</span>
         </button>
         <button
-          class="btn btn-sm w-full justify-start"
-          [ngClass]="activeView === 'elo' ? 'btn-primary' : 'btn-ghost'"
+          class="flex w-full items-center justify-between rounded-lg px-4 py-2 text-sm font-medium transition"
+          [ngClass]="
+            activeView === 'elo'
+              ? 'bg-[var(--ui-ux-2)] text-white shadow-sm'
+              : 'text-[var(--ui-ux-5)] hover:bg-black/5'
+          "
           (click)="setView('elo')"
         >
-          Elo
+          <span>Elo</span>
+          <span class="text-xs text-white/80" *ngIf="activeView === 'elo'">●</span>
         </button>
       </div>
     </div>

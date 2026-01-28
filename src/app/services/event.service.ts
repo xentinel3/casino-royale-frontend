@@ -9,6 +9,13 @@ export interface EventResponse {
   season_id?: string | null;
   season_name?: string | null;
   round?: string | null;
+  latest_snapshot?: {
+    id: string;
+    market_type: string;
+    bookmaker: string;
+    captured_at: string;
+    odds: Record<string, number>;
+  } | null;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -23,6 +30,12 @@ export class EventService {
     competitors: Array<{ id?: string; name: string; role?: string }>;
     season_id?: string;
     round?: string | null;
+    price_snapshot?: {
+      market_type?: string;
+      bookmaker: string;
+      captured_at?: string;
+      odds: Record<string, number>;
+    };
   }): Observable<EventResponse> {
     return this.http.post<EventResponse>(`${this.baseUrl}/api/events`, payload);
   }
