@@ -35,7 +35,7 @@
 
   <main class="mx-auto max-w-6xl px-6 py-8 pr-16 sm:pr-80">
     <div class="mb-8" *ngIf="activeView === 'core'">
-      <p class="text-xs uppercase tracking-[0.2em] text-[var(--ui-ux-1)]">Fase 0</p>
+      <p class="text-[11px] font-medium uppercase tracking-[0.28em] text-[var(--ui-ux-1)]">Fase 0</p>
       <h1 class="text-2xl font-semibold text-[var(--ui-ux-5)]">Herramientas core</h1>
       <p class="mt-2 text-sm text-[var(--ui-ux-1)]">
         Crea evento, captura momios 1X2, carga prediccion dummy y ejecuta recomendacion.
@@ -43,7 +43,7 @@
     </div>
 
     <div class="grid gap-6 lg:grid-cols-2" *ngIf="activeView === 'core'">
-      <section class="rounded-2xl border border-[color:var(--ui-ux-1)] border-opacity-10 bg-white/70 p-6 shadow-sm">
+      <section class="rounded-xl border border-slate-200/70 bg-white/80 p-6 shadow-[0_6px_20px_rgba(0,0,0,0.05)] ring-1 ring-black/5">
         <h2 class="text-lg font-semibold text-[var(--ui-ux-5)]">1. Snapshot de momios 1X2</h2>
         <form class="mt-4 grid gap-4" (ngSubmit)="submitSnapshot()">
           <div class="grid gap-2">
@@ -51,7 +51,7 @@
             <input
               name="snapshotId"
               [(ngModel)]="snapshotForm.id"
-              class="input input-bordered bg-transparent"
+              class="input input-bordered bg-white/90 shadow-sm"
               placeholder="UUID"
             />
           </div>
@@ -60,7 +60,7 @@
             <input
               name="snapshotEvent"
               [(ngModel)]="snapshotForm.eventId"
-              class="input input-bordered bg-transparent"
+              class="input input-bordered bg-white/90 shadow-sm"
               placeholder="UUID del evento"
               required
             />
@@ -70,7 +70,7 @@
             <input
               name="bookmaker"
               [(ngModel)]="snapshotForm.bookmaker"
-              class="input input-bordered bg-transparent"
+              class="input input-bordered bg-white/90 shadow-sm"
               placeholder="dummy"
               required
             />
@@ -81,7 +81,7 @@
               name="capturedAt"
               [(ngModel)]="snapshotForm.capturedAt"
               type="datetime-local"
-              class="input input-bordered bg-transparent"
+              class="input input-bordered bg-white/90 shadow-sm"
             />
           </div>
           <div class="grid gap-4 sm:grid-cols-3">
@@ -92,7 +92,7 @@
                 [(ngModel)]="snapshotForm.homeOdds"
                 type="number"
                 step="0.01"
-                class="input input-bordered bg-transparent"
+                class="input input-bordered bg-white/90 shadow-sm"
               />
             </div>
             <div class="grid gap-2">
@@ -102,7 +102,7 @@
                 [(ngModel)]="snapshotForm.drawOdds"
                 type="number"
                 step="0.01"
-                class="input input-bordered bg-transparent"
+                class="input input-bordered bg-white/90 shadow-sm"
               />
             </div>
             <div class="grid gap-2">
@@ -112,16 +112,16 @@
                 [(ngModel)]="snapshotForm.awayOdds"
                 type="number"
                 step="0.01"
-                class="input input-bordered bg-transparent"
+                class="input input-bordered bg-white/90 shadow-sm"
               />
             </div>
           </div>
-          <button class="btn btn-primary w-full shadow-md">Crear snapshot</button>
+          <button class="btn btn-primary w-full shadow-sm">Crear snapshot</button>
           <p class="text-sm text-[var(--ui-ux-1)]">{{ snapshotStatus }}</p>
         </form>
       </section>
 
-      <section class="rounded-2xl border border-[color:var(--ui-ux-1)] border-opacity-10 bg-white/70 p-6 shadow-sm">
+      <section class="rounded-xl border border-slate-200/70 bg-white/80 p-6 shadow-[0_6px_20px_rgba(0,0,0,0.05)] ring-1 ring-black/5">
         <h2 class="text-lg font-semibold text-[var(--ui-ux-5)]">2. Prediccion dummy</h2>
         <form class="mt-4 grid gap-4" (ngSubmit)="submitPrediction()">
           <div class="grid gap-2">
@@ -129,7 +129,7 @@
             <input
               name="predictionId"
               [(ngModel)]="predictionForm.id"
-              class="input input-bordered bg-transparent"
+              class="input input-bordered bg-white/90 shadow-sm"
               placeholder="UUID"
             />
           </div>
@@ -138,7 +138,7 @@
             <input
               name="predictionEvent"
               [(ngModel)]="predictionForm.eventId"
-              class="input input-bordered bg-transparent"
+              class="input input-bordered bg-white/90 shadow-sm"
               placeholder="UUID del evento"
               required
             />
@@ -148,7 +148,7 @@
             <input
               name="modelVersion"
               [(ngModel)]="predictionForm.modelVersion"
-              class="input input-bordered bg-transparent"
+              class="input input-bordered bg-white/90 shadow-sm"
               placeholder="dummy"
             />
           </div>
@@ -158,7 +158,7 @@
               name="predictionCreated"
               [(ngModel)]="predictionForm.createdAt"
               type="datetime-local"
-              class="input input-bordered bg-transparent"
+              class="input input-bordered bg-white/90 shadow-sm"
             />
           </div>
           <div class="grid gap-4 sm:grid-cols-3">
@@ -169,7 +169,7 @@
                 [(ngModel)]="predictionForm.homeProb"
                 type="number"
                 step="0.01"
-                class="input input-bordered bg-transparent"
+                class="input input-bordered bg-white/90 shadow-sm"
               />
             </div>
             <div class="grid gap-2">
@@ -179,7 +179,7 @@
                 [(ngModel)]="predictionForm.drawProb"
                 type="number"
                 step="0.01"
-                class="input input-bordered bg-transparent"
+                class="input input-bordered bg-white/90 shadow-sm"
               />
             </div>
             <div class="grid gap-2">
@@ -189,7 +189,7 @@
                 [(ngModel)]="predictionForm.awayProb"
                 type="number"
                 step="0.01"
-                class="input input-bordered bg-transparent"
+                class="input input-bordered bg-white/90 shadow-sm"
               />
             </div>
           </div>
@@ -200,15 +200,15 @@
               [(ngModel)]="predictionForm.ratingDiff"
               type="number"
               step="0.01"
-              class="input input-bordered bg-transparent"
+              class="input input-bordered bg-white/90 shadow-sm"
             />
           </div>
-          <button class="btn btn-primary w-full shadow-md">Crear prediccion</button>
+          <button class="btn btn-primary w-full shadow-sm">Crear prediccion</button>
           <p class="text-sm text-[var(--ui-ux-1)]">{{ predictionStatus }}</p>
         </form>
       </section>
 
-      <section class="rounded-2xl border border-[color:var(--ui-ux-1)] border-opacity-10 bg-white/70 p-6 shadow-sm">
+      <section class="rounded-xl border border-slate-200/70 bg-white/80 p-6 shadow-[0_6px_20px_rgba(0,0,0,0.05)] ring-1 ring-black/5">
         <h2 class="text-lg font-semibold text-[var(--ui-ux-5)]">4. Ejecutar recomendacion</h2>
         <form class="mt-4 grid gap-4" (ngSubmit)="submitRecommendation()">
           <div class="grid gap-2">
@@ -216,7 +216,7 @@
             <input
               name="runEvent"
               [(ngModel)]="runForm.eventId"
-              class="input input-bordered bg-transparent"
+              class="input input-bordered bg-white/90 shadow-sm"
               placeholder="UUID del evento"
               required
             />
@@ -226,7 +226,7 @@
             <input
               name="runSnapshot"
               [(ngModel)]="runForm.snapshotId"
-              class="input input-bordered bg-transparent"
+              class="input input-bordered bg-white/90 shadow-sm"
               placeholder="UUID del snapshot"
               required
             />
@@ -236,7 +236,7 @@
             <input
               name="runPrediction"
               [(ngModel)]="runForm.predictionId"
-              class="input input-bordered bg-transparent"
+              class="input input-bordered bg-white/90 shadow-sm"
               placeholder="UUID de prediccion"
               required
             />
@@ -248,14 +248,14 @@
               [(ngModel)]="runForm.bankroll"
               type="number"
               step="1"
-              class="input input-bordered bg-transparent"
+              class="input input-bordered bg-white/90 shadow-sm"
             />
           </div>
-          <button class="btn btn-primary w-full shadow-md">Generar recomendacion</button>
+          <button class="btn btn-primary w-full shadow-sm">Generar recomendacion</button>
           <p class="text-sm text-[var(--ui-ux-1)]">{{ recommendationStatus }}</p>
         </form>
 
-        <div *ngIf="latestRecommendation" class="mt-6 rounded-xl border border-[color:var(--ui-ux-1)] border-opacity-15 bg-white/80 p-4">
+        <div *ngIf="latestRecommendation" class="mt-6 rounded-xl border border-slate-200/70 bg-slate-50/80 p-4 shadow-sm ring-1 ring-black/5">
           <div class="flex items-center justify-between">
             <div>
               <p class="text-xs uppercase tracking-wide text-[var(--ui-ux-1)]">Decision</p>
@@ -316,13 +316,13 @@
         </p>
       </div>
 
-      <section class="rounded-2xl border border-[color:var(--ui-ux-1)] border-opacity-10 bg-white/70 p-6 shadow-sm">
+      <section class="rounded-xl border border-slate-200/70 bg-white/80 p-6 shadow-[0_6px_20px_rgba(0,0,0,0.05)] ring-1 ring-black/5">
         <h2 class="text-lg font-semibold text-[var(--ui-ux-5)]">Insertar datos historicos</h2>
         <div class="mt-4 grid gap-3">
           <input
             type="file"
             accept=".csv"
-            class="file-input file-input-bordered w-full bg-transparent"
+            class="file-input file-input-bordered w-full bg-white/90 shadow-sm"
             (change)="handleHistoryFile($event)"
           />
           <button class="btn btn-primary w-full" (click)="uploadHistory()">Importar CSV</button>
@@ -330,7 +330,7 @@
         </div>
       </section>
 
-      <section class="mt-6 rounded-2xl border border-[color:var(--ui-ux-1)] border-opacity-10 bg-white/70 p-6 shadow-sm">
+      <section class="mt-6 rounded-xl border border-slate-200/70 bg-white/80 p-6 shadow-[0_6px_20px_rgba(0,0,0,0.05)] ring-1 ring-black/5">
         <div class="flex items-center justify-between gap-4">
           <h2 class="text-lg font-semibold text-[var(--ui-ux-5)]">Historial cargado</h2>
           <button class="btn btn-sm btn-ghost" (click)="loadHistory()">Actualizar</button>
@@ -342,7 +342,7 @@
         </p>
         <div class="mt-4 space-y-3" *ngIf="historyRecords.length > 0">
           <div
-            class="rounded-xl border border-[color:var(--ui-ux-1)] border-opacity-10 bg-white/80 p-4"
+            class="rounded-xl border border-slate-200/80 bg-white p-4 shadow-[0_8px_24px_rgba(0,0,0,0.06)] ring-1 ring-black/5"
             *ngFor="let record of historyRecords"
           >
             <div class="flex flex-wrap items-center justify-between gap-3">
@@ -388,13 +388,13 @@
         </p>
       </div>
 
-      <section class="rounded-2xl border border-[color:var(--ui-ux-1)] border-opacity-10 bg-white/70 p-6 shadow-sm">
+      <section class="rounded-xl border border-slate-200/70 bg-white/80 p-6 shadow-[0_6px_20px_rgba(0,0,0,0.05)] ring-1 ring-black/5">
         <h2 class="text-lg font-semibold text-[var(--ui-ux-5)]">Entrenar Elo</h2>
         <p class="mt-2 text-xs text-[var(--ui-ux-1)]" *ngIf="seasonsStatus">{{ seasonsStatus }}</p>
         <div class="mt-4 grid gap-4 sm:grid-cols-3">
           <label class="grid gap-2 text-sm text-[var(--ui-ux-1)]">
             Alcance
-            <select class="select select-bordered bg-transparent" [(ngModel)]="eloTrainScope">
+            <select class="select select-bordered bg-white shadow-sm focus:border-slate-400" [(ngModel)]="eloTrainScope">
               <option value="all_time">Historico</option>
               <option value="season">Temporada</option>
             </select>
@@ -402,7 +402,7 @@
           <label class="grid gap-2 text-sm text-[var(--ui-ux-1)]">
             Temporada
             <select
-              class="select select-bordered bg-transparent"
+              class="select select-bordered bg-white shadow-sm focus:border-slate-400"
               [(ngModel)]="eloTrainSeasonName"
               [disabled]="eloTrainScope !== 'season'"
             >
@@ -423,17 +423,17 @@
         <p class="mt-3 text-sm text-[var(--ui-ux-1)]">{{ eloTrainStatus }}</p>
       </section>
 
-      <section class="mt-6 rounded-2xl border border-[color:var(--ui-ux-1)] border-opacity-10 bg-white/70 p-6 shadow-sm">
+      <section class="mt-6 rounded-xl border border-slate-200/70 bg-white/80 p-6 shadow-[0_6px_20px_rgba(0,0,0,0.05)] ring-1 ring-black/5">
         <div class="flex flex-wrap items-center justify-between gap-4">
           <h2 class="text-lg font-semibold text-[var(--ui-ux-5)]">Ratings</h2>
           <div class="flex flex-wrap items-center gap-2">
-            <select class="select select-sm select-bordered bg-transparent" [(ngModel)]="eloViewScope" (change)="loadEloRatings()">
+            <select class="select select-sm select-bordered bg-white shadow-sm focus:border-slate-400" [(ngModel)]="eloViewScope" (change)="loadEloRatings()">
               <option value="all">Todos</option>
               <option value="all_time">Historico</option>
               <option value="season">Temporada</option>
             </select>
             <select
-              class="select select-sm select-bordered bg-transparent"
+              class="select select-sm select-bordered bg-white shadow-sm focus:border-slate-400"
               [(ngModel)]="eloViewSeasonName"
               [disabled]="eloViewScope !== 'season'"
               (change)="loadEloRatings()"
@@ -457,7 +457,7 @@
         </p>
         <div class="mt-4 grid gap-3" *ngIf="eloRatings.length > 0">
           <div
-            class="rounded-xl border border-[color:var(--ui-ux-1)] border-opacity-10 bg-white/80 p-4"
+            class="rounded-xl border border-slate-200/80 bg-white p-4 shadow-[0_8px_24px_rgba(0,0,0,0.06)] ring-1 ring-black/5"
             *ngFor="let rating of eloRatings"
           >
             <div class="flex items-center justify-between gap-4">
